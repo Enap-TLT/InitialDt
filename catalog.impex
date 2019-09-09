@@ -1,0 +1,42 @@
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2000-2016 SAP SE or an SAP affiliate company.
+# All rights reserved.
+#
+# This software is the confidential and proprietary information of SAP
+# ("Confidential Information"). You shall not disclose such Confidential
+# Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with SAP.
+# -----------------------------------------------------------------------
+# ##Comentarios
+#Fecha;07/02/2019
+#Hora;5 pm
+#Modificado por; CAJM
+#Descripción de la modificación; 
+#Restructura
+#Import the Italika Content Catalog
+#Se comentan permisos
+
+$contentCatalog=italikaContentCatalog
+$profileCatalog=italikaClientProfilePicture
+
+$languages=ja,en,de,zh,es,es_MX
+
+# Content catalog for CMS contents
+INSERT_UPDATE ContentCatalog;id[unique=true]
+;$contentCatalog
+;$profileCatalog
+
+# Catalog versions for content catalogs
+INSERT_UPDATE CatalogVersion;catalog(id)[unique=true];version[unique=true];active;languages(isoCode)
+;$contentCatalog;Staged;false;$languages
+;$contentCatalog;Online;true;$languages
+;$profileCatalog;1.0;false;$languages
+
+# Catalog versions for content catalogs
+#UPDATE CatalogVersion;catalog(id)[unique=true];version[unique=true];active;languages(isoCode);writePrincipals(uid);readPrincipals(uid)
+#;$contentCatalog;Staged;false;$languages;admin,ITK_PCM_REFACCIONES_PRODUCTO_E,ITK_PCM_REFACCIONES_ADMINISTRADOR_E,ITK_PCM_REFACCIONES_692679_DISEÑO_E;admin,ITK_PCM_REFACCIONES_PRODUCTO_E,ITK_PCM_REFACCIONES_ADMINISTRADOR_E,ITK_PCM_REFACCIONES_692679_DISEÑO_E
+#;$contentCatalog;Online;true;$languages;admin,ITK_PCM_REFACCIONES_PRODUCTO_E,ITK_PCM_REFACCIONES_ADMINISTRADOR_E,ITK_PCM_REFACCIONES_692679_DISEÑO_E;admin,ITK_PCM_REFACCIONES_PRODUCTO_E,ITK_PCM_REFACCIONES_ADMINISTRADOR_E,ITK_PCM_REFACCIONES_692679_DISEÑO_E
+
+

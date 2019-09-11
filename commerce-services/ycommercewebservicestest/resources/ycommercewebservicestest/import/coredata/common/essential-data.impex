@@ -1,0 +1,342 @@
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2018 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+# This software is the confidential and proprietary information of SAP
+# ("Confidential Information"). You shall not disclose such Confidential
+# Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with SAP.
+# -----------------------------------------------------------------------
+# Import essential data for the ycommercewebservices tests
+#
+# Includes:
+# * Users
+# * Languages
+# * Currencies
+# * Titles
+# * Warehouses
+
+# Users
+$defaultPassword=1234
+
+$regulargroup=regulargroup
+$customergroup=customergroup
+
+INSERT_UPDATE OrderCancelConfig;orderCancelAllowed;cancelAfterWarehouseAllowed;completeCancelAfterShippingStartedAllowed;partialCancelAllowed;partialOrderEntryCancelAllowed;queuedOrderWaitingTime;
+;true;true;true;true;true;100;
+
+# Create oAuth2 clients
+INSERT_UPDATE OAuthClientDetails;clientId[unique=true]	;resourceIds	;scope		;authorizedGrantTypes											;authorities			;clientSecret	;registeredRedirectUri
+								;client-side			;hybris			;basic		;implicit,client_credentials									;ROLE_CLIENT			;secret			;http://localhost:9001/authorizationserver/oauth2_implicit_callback;
+								;mobile_android			;hybris			;basic		;authorization_code,refresh_token,password,client_credentials	;ROLE_CLIENT			;secret			;http://localhost:9001/authorizationserver/oauth2_callback;
+								;trusted_client			;hybris			;extended	;authorization_code,refresh_token,password,client_credentials	;ROLE_TRUSTED_CLIENT	;secret;		;
+
+
+### ESSENTIAL DATA
+
+INSERT_UPDATE Usergroup;uid[unique=true];
+#;customergroup;;
+;customermanagergroup;;
+
+
+### SOLR ESENTIAL DATA
+
+
+
+### END OF ESSENTIAL DATA
+
+
+
+# Create Customer Group
+INSERT_UPDATE Usergroup;uid[unique=true];groups(uid)[mode=append]
+;$regulargroup;customergroup
+
+INSERT_UPDATE Customer;uid[unique=true];groups(uid);password[default=$defaultPassword];name
+;democustomer;customergroup;;Demo Customer
+
+INSERT_UPDATE Employee;UID[unique=true];password[default=$defaultPassword];description;name;groups(uid)[mode=append];sessionLanguage(isocode);
+;customermanager;;Customer manager;Customer manager;customermanagergroup;en;
+
+
+# Media formats
+INSERT_UPDATE MediaFormat;qualifier[unique=true]
+;1200Wx1200H
+;515Wx515H
+;365Wx246H
+;300Wx300H
+;96Wx96H
+;65Wx65H
+;30Wx30H
+
+# Media Folders
+INSERT_UPDATE MediaFolder;qualifier[unique=true];path[unique=true]
+;images;images
+
+# Titles
+INSERT_UPDATE Title;code[unique=true]
+;mr
+;mrs
+;miss
+;ms
+;dr
+;rev
+
+
+# Language
+$lang=en
+
+
+# Titles
+UPDATE Title;code[unique=true];name[lang=$lang]
+ ;dr;"Dr."
+ ;miss;"Miss"
+ ;mr;"Mr"
+ ;mrs;"Mrs"
+ ;ms;"Ms"
+ ;rev;"Rev."
+
+# Credit / Debit Cards
+UPDATE CreditCardType;code[unique=true];name[lang=$lang]
+ ;amex;"American Express"
+ ;diners;"Diner's Club"
+ ;maestro;"Maestro"
+ ;master;"Mastercard"
+ ;mastercard_eurocard;"Mastercard/Eurocard"
+ ;switch;"Switch"
+ ;visa;"Visa"
+
+# DistanceUnits for Storelocator 
+UPDATE DistanceUnit;code[unique=true];name[lang=$lang]
+ ;km;"km"
+ ;miles;"miles"
+
+ # Languages
+INSERT_UPDATE Language;isocode[unique=true];fallbackLanguages(isocode);active[default=true]
+;en;;;
+;de;en;;
+;ja;en;;
+;zh;en;;
+
+# Currencies
+INSERT_UPDATE Currency;isocode[unique=true];conversion;digits;symbol
+;GBP;1;2;£
+;EUR;1;2;€
+;USD;1,4;2;$
+;JPY;120;0;¥
+
+$lang=en
+
+# Language
+UPDATE Language;isocode[unique=true];name[lang=$lang]
+ ;de;"German"
+ ;en;"English"
+ ;ja;"Japanese"
+ ;zh;"Chinese"
+
+# Currencies
+UPDATE Currency;isocode[unique=true];name[lang=$lang]
+ ;EUR;"Euro"
+ ;GBP;"Pound"
+ ;JPY;"Japanese Yen"
+ ;USD;"US Dollar"
+
+#
+# Import Countries
+# Full country list conforming to ISO 3166-1 alpha-2
+#
+INSERT_UPDATE Country;isocode[unique=true];name[lang=en];active[default=true]
+;CA;"Canada"
+;CO;"Colombia"
+;MX;"Mexico"
+;US;"United States"
+
+#
+# ISO 3166-2:US
+#
+INSERT_UPDATE Region;country(isocode);isocode[unique=true];isocodeShort;name[lang=en];active[default=true]
+;US;US-AL;AL;"Alabama"
+;US;US-AK;AK;"Alaska"
+;US;US-AZ;AZ;"Arizona"
+;US;US-AR;AR;"Arkansas"
+;US;US-CA;CA;"California"
+;US;US-CO;CO;"Colorado"
+;US;US-CT;CT;"Connecticut"
+;US;US-DE;DE;"Delaware"
+;US;US-FL;FL;"Florida"
+;US;US-GA;GA;"Georgia"
+;US;US-HI;HI;"Hawaii"
+;US;US-ID;ID;"Idaho"
+;US;US-IL;IL;"Illinois"
+;US;US-IN;IN;"Indiana"
+;US;US-IA;IA;"Iowa"
+;US;US-KS;KS;"Kansas"
+;US;US-KY;KY;"Kentucky"
+;US;US-LA;LA;"Louisiana"
+;US;US-ME;ME;"Maine"
+;US;US-MD;MD;"Maryland"
+;US;US-MA;MA;"Massachusetts"
+;US;US-MI;MI;"Michigan"
+;US;US-MN;MN;"Minnesota"
+;US;US-MS;MS;"Mississippi"
+;US;US-MO;MO;"Missouri"
+;US;US-MT;MT;"Montana"
+;US;US-NE;NE;"Nebraska"
+;US;US-NV;NV;"Nevada"
+;US;US-NH;NH;"New Hampshire"
+;US;US-NJ;NJ;"New Jersey"
+;US;US-NM;NM;"New Mexico"
+;US;US-NY;NY;"New York"
+;US;US-NC;NC;"North Carolina"
+;US;US-ND;ND;"North Dakota"
+;US;US-OH;OH;"Ohio"
+;US;US-OK;OK;"Oklahoma"
+;US;US-OR;OR;"Oregon"
+;US;US-PA;PA;"Pennsylvania"
+;US;US-RI;RI;"Rhode Island"
+;US;US-SC;SC;"South Carolina"
+;US;US-SD;SD;"South Dakota"
+;US;US-TN;TN;"Tennessee"
+;US;US-TX;TX;"Texas"
+;US;US-UT;UT;"Utah"
+;US;US-VT;VT;"Vermont"
+;US;US-VA;VA;"Virginia"
+;US;US-WA;WA;"Washington"
+;US;US-WV;WV;"West Virginia"
+;US;US-WI;WI;"Wisconsin"
+;US;US-WY;WY;"Wyoming"
+;US;US-DC;DC;"District of Columbia"
+;US;US-AS;AS;"American Samoa"
+;US;US-GU;GU;"Guam"
+;US;US-MP;MP;"Northern Mariana Islands"
+;US;US-PR;PR;"Puerto Rico"
+;US;US-UM;UM;"United States Minor Outlying Islands"
+;US;US-VI;VI;"United States Virgin Islands"
+
+#
+# ISO 3166-2:CA
+#
+;CA;CA-AB;AB;"Alberta"
+;CA;CA-BC;BC;"British Columbia"
+;CA;CA-MB;MB;"Manitoba"
+;CA;CA-NB;NB;"New Brunswick"
+;CA;CA-NL;NL;"Newfoundland and Labrador"
+;CA;CA-NS;NS;"Nova Scotia"
+;CA;CA-ON;ON;"Ontario"
+;CA;CA-PE;PE;"Prince Edward Island"
+;CA;CA-QC;QC;"Quebec"
+;CA;CA-SK;SK;"Saskatchewan"
+;CA;CA-NT;NT;"Northern Territories"
+;CA;CA-NU;NU;"Nunavut"
+;CA;CA-YT;YT;"Yukon Territory"
+
+#
+# Import Delivery Modes / Zones
+#
+#% impex.setLocale(Locale.GERMAN)
+
+# Currencies
+$ukCurrency=GBP
+$jpCurrency=JPY
+$usCurrency=USD
+$europeCurrency=EUR
+
+# Delivery Zones
+INSERT_UPDATE Zone;code[unique=true];countries(isocode)
+;uk;GB,GG,IM,JE
+;continentalEurope;AD,AL,AT,BA,BE,BG,BY,CH,CY,CZ,DE,DK,EE,ES,FI,FO,FR,GI,GL,GR,HR,HU,IE,IS,IT,LI,LT,LU,LV,MC,MD,ME,MK,MT,NL,NO,PL,PT,RO,RS,RU,SE,SI,SK,SM,TR,UA,VA
+;usa;US
+;ca;CA
+;japan;JP
+;china;CN
+
+# Zone Delivery Modes
+#% if: FlexibleSearch.getInstance().search("SELECT {d.pk} FROM {ZoneDeliveryMode as d}",de.hybris.platform.deliveryzone.jalo.ZoneDeliveryMode.class).getCount() < 1
+INSERT_UPDATE ZoneDeliveryMode;code[unique=true];net;active[default=true]
+;premium-net;true
+;standard-net;true
+;premium-gross;false
+;standard-gross;false
+;free-standard-shipping;true;false;
+
+# UK
+INSERT_UPDATE ZoneDeliveryModeValue;deliveryMode(code)[unique=true];zone(code)[default='uk'][unique=true];currency(isocode)[unique=true];value;minimum[unique=true]
+;premium-gross;;$ukCurrency;10,99;0,00
+;premium-gross;;$usCurrency;14,99;0,00
+;premium-gross;;$jpCurrency;99,99;0,00
+;premium-net;;$jpCurrency;99,99;0,00
+;standard-gross;;$ukCurrency;5,99;0,00
+;standard-gross;;$usCurrency;7,99;0,00
+;standard-gross;;$jpCurrency;59,99;0,00
+;standard-net;;$jpCurrency;59,99;0,00
+
+# Continental Europe
+INSERT_UPDATE ZoneDeliveryModeValue;deliveryMode(code)[unique=true];zone(code)[default='continentalEurope'][unique=true];currency(isocode)[unique=true];value;minimum[unique=true]
+;premium-gross;;$ukCurrency;11,99;0,00
+;premium-gross;;$europeCurrency;14,99;0,00
+;premium-gross;;$usCurrency;15,99;0,00
+;premium-gross;;$jpCurrency;109,99;0,00
+;premium-net;;$jpCurrency;99,99;0,00
+;premium-net;;$europeCurrency;7,99;0,00
+;premium-net;;$usCurrency;8,99;0,00
+;standard-gross;;$ukCurrency;6,99;0,00
+;standard-gross;;$europeCurrency;7,99;0,00
+;standard-gross;;$usCurrency;8,99;0,00
+;standard-gross;;$jpCurrency;69,99;0,00
+;standard-net;;$jpCurrency;59,99;0,00
+;standard-net;;$europeCurrency;6,99;0,00
+;standard-net;;$usCurrency;6,99;0,00
+
+# USA
+INSERT_UPDATE ZoneDeliveryModeValue;deliveryMode(code)[unique=true];zone(code)[default='usa'][unique=true];currency(isocode)[unique=true];value;minimum[unique=true]
+;premium-net;;$usCurrency;16,99;0,00
+;premium-gross;;$usCurrency;19,99;0,00
+;premium-gross;;$jpCurrency;119,99;0,00
+;premium-net;;$jpCurrency;99,99;0,00
+;standard-net;;$usCurrency;9,99;0,00
+;standard-gross;;$usCurrency;11,99;0,00
+;standard-gross;;$jpCurrency;79,99;0,00
+;standard-net;;$jpCurrency;59,99;0,00
+
+# Canada
+INSERT_UPDATE ZoneDeliveryModeValue;deliveryMode(code)[unique=true];zone(code)[default='ca'][unique=true];currency(isocode)[unique=true];value;minimum[unique=true]
+;premium-gross;;$usCurrency;14,49;0,00
+;premium-gross;;$jpCurrency;99,49;0,00
+;premium-net;;$jpCurrency;99,99;0,00
+;standard-gross;;$usCurrency;7,49;0,00
+;standard-gross;;$jpCurrency;59,49;0,00
+;standard-net;;$jpCurrency;59,99;0,00
+
+# Japan
+INSERT_UPDATE ZoneDeliveryModeValue;deliveryMode(code)[unique=true];zone(code)[default='japan'][unique=true];currency(isocode)[unique=true];value;minimum[unique=true]
+;premium-gross;;$usCurrency;14,49;0,00
+;premium-gross;;$jpCurrency;99,49;0,00
+;premium-net;;$jpCurrency;99,99;0,00
+;standard-gross;;$usCurrency;7,49;0,00
+;standard-gross;;$jpCurrency;59,49;0,00
+;standard-net;;$jpCurrency;59,99;0,00
+
+# China
+INSERT_UPDATE ZoneDeliveryModeValue;deliveryMode(code)[unique=true];zone(code)[default='china'][unique=true];currency(isocode)[unique=true];value;minimum[unique=true]
+;premium-gross;;$usCurrency;14,49;0,00
+;premium-gross;;$jpCurrency;99,49;0,00
+;premium-net;;$jpCurrency;99,99;0,00
+;standard-gross;;$usCurrency;7,49;0,00
+;standard-gross;;$jpCurrency;59,99;0,00
+;standard-net;;$jpCurrency;59,99;0,00
+#% endif:
+
+# Pickup Delivery Mode
+INSERT_UPDATE PickUpDeliveryMode;code[unique=true];active[default=true];supportedMode(code)
+;pickup;;BUY_AND_COLLECT
+
+# Tax & Tax Groups
+INSERT_UPDATE UserTaxGroup;code[unique=true]
+;wsTest-taxes
+
+INSERT_UPDATE ProductTaxGroup;code[unique=true]
+;wsTest-vat-full
+
+INSERT_UPDATE Tax;code[unique=true];value;currency(isocode)
+;wsTest-vat-full;5
+

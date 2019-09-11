@@ -114,9 +114,6 @@ UPDATE DistanceUnit;code[unique=true];name[lang=$lang]
  # Languages
 INSERT_UPDATE Language;isocode[unique=true];fallbackLanguages(isocode);active[default=true]
 ;en;;;
-;de;en;;
-;ja;en;;
-;zh;en;;
 
 # Currencies
 INSERT_UPDATE Currency;isocode[unique=true];conversion;digits;symbol
@@ -129,11 +126,8 @@ $lang=en
 
 # Language
 UPDATE Language;isocode[unique=true];name[lang=$lang]
- ;de;"German"
  ;en;"English"
- ;ja;"Japanese"
- ;zh;"Chinese"
-
+ 
 # Currencies
 UPDATE Currency;isocode[unique=true];name[lang=$lang]
  ;EUR;"Euro"
